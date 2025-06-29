@@ -1,0 +1,41 @@
+{
+  "name": "@0xobedient/sanctum-sdk",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xobedient/sanctum-sdk.git"
+  },
+  "keywords": [
+    "solana",
+    "blockchain",
+    "web3",
+    "lst",
+    "liquid stake",
+    "sanctum"
+  ],
+  "author": "0xobedient",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xobedient/sanctum-sdk/issues"
+  },
+  "homepage": "https://github.com/0xobedient/sanctum-sdk#readme",
+  "description": "A Solana blockchain library to fetch LSTs via Sanctum API, provide unsigned transaction signatures, and send transactions securely.",
+  "devDependencies": {
+    "@types/node": "^24.0.4",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@solana/web3.js": "^1.98.2"
+  }
+}
