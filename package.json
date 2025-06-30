@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc"
   },
+  "exports": "./dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xobedient/sanctum-sdk.git"
@@ -36,6 +37,7 @@
     "dist"
   ],
   "dependencies": {
-    "@solana/web3.js": "^1.98.2"
+    "@solana/web3.js": "^1.98.2",
+    "bs58": "^6.0.0"
   }
 }
