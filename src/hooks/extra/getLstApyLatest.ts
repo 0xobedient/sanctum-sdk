@@ -1,12 +1,16 @@
 import {
+  ErrorResponse,
   EXTRA_API_ROUTES,
   GetLstApyLatestParams,
+  GetLstApyLatestResponse,
   handleError,
   SANCTUM_EXTRA_API_URI,
   toQueryString,
 } from "../../shared";
 
-export async function getLstApyLatest(params: GetLstApyLatestParams) {
+export async function getLstApyLatest(
+  params: GetLstApyLatestParams
+): Promise<GetLstApyLatestResponse & ErrorResponse> {
   try {
     const query = toQueryString(params);
     const response = await fetch(
@@ -19,8 +23,8 @@ export async function getLstApyLatest(params: GetLstApyLatestParams) {
       }
     );
 
-    const data = await response.json();
-
+    const data = (await response.json()) as GetLstApyLatestResponse &
+      ErrorResponse;
     return data;
   } catch (error) {
     throw new Error(handleError(error, "getLstApyLatest"));

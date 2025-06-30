@@ -1,12 +1,16 @@
 import {
+  ErrorResponse,
   EXTRA_API_ROUTES,
   GetLstApyIndivEpochsParams,
+  GetLstApyIndivEpochsResponse,
   handleError,
   SANCTUM_EXTRA_API_URI,
   toQueryString,
 } from "../../shared";
 
-export async function getLstApyIndivEpochs(params: GetLstApyIndivEpochsParams) {
+export async function getLstApyIndivEpochs(
+  params: GetLstApyIndivEpochsParams
+): Promise<GetLstApyIndivEpochsResponse & ErrorResponse> {
   try {
     const query = toQueryString(params);
 
@@ -20,7 +24,8 @@ export async function getLstApyIndivEpochs(params: GetLstApyIndivEpochsParams) {
       }
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as GetLstApyIndivEpochsResponse &
+      ErrorResponse;
 
     return data;
   } catch (error) {

@@ -1,11 +1,14 @@
 import {
   BASE_API_ROUTES,
   GetSwapLstTxParams,
+  GetSwapLstUnsignedTxStringResponse,
   handleError,
   SANCTUM_BASE_API_URI,
 } from "../../shared";
 
-export async function getSwapLstUnsignedTxString(params: GetSwapLstTxParams) {
+export async function getSwapLstUnsignedTxString(
+  params: GetSwapLstTxParams
+): Promise<GetSwapLstUnsignedTxStringResponse> {
   try {
     const response = await fetch(SANCTUM_BASE_API_URI + BASE_API_ROUTES.SWAP, {
       method: "POST",
@@ -15,8 +18,13 @@ export async function getSwapLstUnsignedTxString(params: GetSwapLstTxParams) {
       body: JSON.stringify(params),
     });
 
-    const data = await response.json();
-    return data;
+    if (response.ok) {
+      const data =
+        (await response.json()) as GetSwapLstUnsignedTxStringResponse;
+      return data;
+    }
+    const error = await response.text();
+    throw new Error(handleError(error, "getSwapLstUnsignedTxString"));
   } catch (error) {
     throw new Error(handleError(error, "getSwapLstUnsignedTxString"));
   }

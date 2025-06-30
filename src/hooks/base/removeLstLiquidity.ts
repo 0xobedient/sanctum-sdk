@@ -1,8 +1,9 @@
-import { BaseWallet } from "src/core";
+import { BaseWallet } from "../../core";
 import {
   BASE_API_ROUTES,
   handleError,
   RemoveLstLiquidityParams,
+  RemoveLstLiquidityResponse,
   SANCTUM_BASE_API_URI,
 } from "../../shared";
 import { buildTransaction } from "../helper";
@@ -10,7 +11,7 @@ import { buildTransaction } from "../helper";
 export async function removeLstLiquidity(
   wallet: BaseWallet,
   params: RemoveLstLiquidityParams
-) {
+): Promise<RemoveLstLiquidityResponse> {
   try {
     const response = await fetch(
       SANCTUM_BASE_API_URI + BASE_API_ROUTES.REMOVE_LIQUIDITY,
@@ -23,11 +24,16 @@ export async function removeLstLiquidity(
       }
     );
 
-    const data = await response.json();
+    if (response.ok) {
+      const data = await response.json();
 
-    const signature = await buildTransaction(data.tx, wallet);
+      const signature = await buildTransaction(data.tx, wallet);
 
-    return signature;
+      return { signature };
+    }
+
+    const error = await response.text();
+    throw new Error(handleError(error, "removeLstLiquidity"));
   } catch (error) {
     throw new Error(handleError(error, "removeLstLiquidity"));
   }

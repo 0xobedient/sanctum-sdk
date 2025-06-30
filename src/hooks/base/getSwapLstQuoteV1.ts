@@ -1,6 +1,7 @@
 import {
   BASE_API_ROUTES,
   GetSwapLstQuoteParams,
+  GetSwapLstQuoteV1Response,
   handleError,
   SANCTUM_BASE_API_URI,
   toQueryString,
@@ -9,7 +10,7 @@ import {
 export async function getSwapLstQuoteV1({
   swapSrc,
   ...params
-}: GetSwapLstQuoteParams) {
+}: GetSwapLstQuoteParams): Promise<GetSwapLstQuoteV1Response> {
   try {
     const query = toQueryString(params);
     const response = await fetch(
@@ -22,9 +23,15 @@ export async function getSwapLstQuoteV1({
       }
     );
 
-    const data = await response.json();
+    if (response.ok) {
+      const data = (await response.json()) as GetSwapLstQuoteV1Response;
 
-    return data;
+      return data;
+    }
+
+    const error = await response.text();
+
+    throw new Error(handleError(error, "getSwapLstQuoteV1"));
   } catch (error) {
     throw new Error(handleError(error, "getSwapLstQuoteV1"));
   }

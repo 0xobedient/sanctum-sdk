@@ -1,12 +1,16 @@
 import {
+  ErrorResponse,
   EXTRA_API_ROUTES,
+  GetLstApyLatestResponse,
   GetLstQpyPastEpochsParams,
   handleError,
   SANCTUM_EXTRA_API_URI,
   toQueryString,
 } from "../../shared";
 
-export async function getLstApyPastEpochs(params: GetLstQpyPastEpochsParams) {
+export async function getLstApyPastEpochs(
+  params: GetLstQpyPastEpochsParams
+): Promise<GetLstApyLatestResponse & ErrorResponse> {
   try {
     const query = toQueryString(params);
 
@@ -20,7 +24,8 @@ export async function getLstApyPastEpochs(params: GetLstQpyPastEpochsParams) {
       }
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as GetLstApyLatestResponse &
+      ErrorResponse;
 
     return data;
   } catch (error) {

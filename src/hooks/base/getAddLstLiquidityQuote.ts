@@ -4,11 +4,12 @@ import {
   GetAddLstLiquidityQuoteParams,
   BASE_API_ROUTES,
   SANCTUM_BASE_API_URI,
+  GetAddLstLiquidityQuoteResponse,
 } from "../../shared";
 
 export async function getAddLstLiquidityQuote(
   params: GetAddLstLiquidityQuoteParams
-) {
+): Promise<GetAddLstLiquidityQuoteResponse> {
   try {
     const query = toQueryString(params);
 
@@ -22,9 +23,15 @@ export async function getAddLstLiquidityQuote(
       }
     );
 
-    const data = await response.json();
+    if (response.ok) {
+      const data = (await response.json()) as GetAddLstLiquidityQuoteResponse;
 
-    return data;
+      return data;
+    }
+
+    const error = await response.text();
+
+    throw new Error(handleError(error, "getAddLstLiquidityQuote"));
   } catch (error) {
     throw new Error(handleError(error, "getAddLstLiquidityQuote"));
   }

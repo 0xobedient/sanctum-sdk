@@ -1,10 +1,11 @@
 import {
   EXTRA_API_ROUTES,
+  GetLstCurrentInfinityAllocationResponse,
   handleError,
   SANCTUM_EXTRA_API_URI,
 } from "../../shared";
 
-export async function getLstCurrentInfinityAllocation() {
+export async function getLstCurrentInfinityAllocation(): Promise<GetLstCurrentInfinityAllocationResponse> {
   try {
     const response = await fetch(
       SANCTUM_EXTRA_API_URI +
@@ -17,7 +18,8 @@ export async function getLstCurrentInfinityAllocation() {
       }
     );
 
-    const data = await response.json();
+    const data =
+      (await response.json()) as GetLstCurrentInfinityAllocationResponse;
 
     return data;
   } catch (error) {

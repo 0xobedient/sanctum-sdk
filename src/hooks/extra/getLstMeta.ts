@@ -1,12 +1,16 @@
 import {
   EXTRA_API_ROUTES,
+  GetLstMetaResposne,
   GetLstMetaParams,
   handleError,
   SANCTUM_EXTRA_API_URI,
   toQueryString,
-} from "src/shared";
+  ErrorResponse,
+} from "../../shared";
 
-export async function getLstMeta(params: GetLstMetaParams) {
+export async function getLstMeta(
+  params: GetLstMetaParams
+): Promise<GetLstMetaResposne & ErrorResponse> {
   try {
     const query = toQueryString(params);
 
@@ -20,7 +24,7 @@ export async function getLstMeta(params: GetLstMetaParams) {
       }
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as GetLstMetaResposne & ErrorResponse;
 
     return data;
   } catch (error) {

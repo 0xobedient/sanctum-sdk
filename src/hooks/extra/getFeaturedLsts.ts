@@ -1,17 +1,14 @@
 import {
   EXTRA_API_ROUTES,
-  GetLstApyInceptionParams,
+  GetFeaturedLstsResponse,
   handleError,
   SANCTUM_EXTRA_API_URI,
-  toQueryString,
 } from "../../shared";
 
-export async function getFeaturedLsts(params: GetLstApyInceptionParams) {
+export async function getFeaturedLsts(): Promise<GetFeaturedLstsResponse> {
   try {
-    const query = toQueryString(params);
-
     const response = await fetch(
-      SANCTUM_EXTRA_API_URI + EXTRA_API_ROUTES.GET_FEATURED_LSTS + query,
+      SANCTUM_EXTRA_API_URI + EXTRA_API_ROUTES.GET_FEATURED_LSTS,
       {
         method: "GET",
         headers: {
@@ -20,7 +17,7 @@ export async function getFeaturedLsts(params: GetLstApyInceptionParams) {
       }
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as GetFeaturedLstsResponse;
 
     return data;
   } catch (error) {

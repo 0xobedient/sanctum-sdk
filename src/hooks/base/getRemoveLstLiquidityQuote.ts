@@ -1,6 +1,7 @@
 import {
   BASE_API_ROUTES,
   GetRemoveLstLiquidityQuoteParams,
+  GetRemoveLstLiquidityQuoteResponse,
   handleError,
   SANCTUM_BASE_API_URI,
   toQueryString,
@@ -8,7 +9,7 @@ import {
 
 export async function getRemoveLstLiquidityQuote(
   params: GetRemoveLstLiquidityQuoteParams
-) {
+): Promise<GetRemoveLstLiquidityQuoteResponse> {
   try {
     const query = toQueryString(params);
     const response = await fetch(
@@ -21,9 +22,15 @@ export async function getRemoveLstLiquidityQuote(
       }
     );
 
-    const data = await response.json();
+    if (response.ok) {
+      const data =
+        (await response.json()) as GetRemoveLstLiquidityQuoteResponse;
 
-    return data;
+      return data;
+    }
+
+    const error = await response.text();
+    throw new Error(handleError(error, "getRemoveLstLiquidityQuote"));
   } catch (error) {
     throw new Error(handleError(error, "getRemoveLstLiquidityQuote"));
   }
