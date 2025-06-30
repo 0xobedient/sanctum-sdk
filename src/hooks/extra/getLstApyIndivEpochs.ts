@@ -1,16 +1,17 @@
 import {
   EXTRA_API_ROUTES,
-  GetLstApyLatestParams,
+  GetLstApyIndivEpochsParams,
   handleError,
   SANCTUM_EXTRA_API_URI,
   toQueryString,
 } from "../../shared";
 
-export async function getLstApyLatest(params: GetLstApyLatestParams) {
+export async function getLstApyIndivEpochs(params: GetLstApyIndivEpochsParams) {
   try {
     const query = toQueryString(params);
+
     const response = await fetch(
-      SANCTUM_EXTRA_API_URI + EXTRA_API_ROUTES.GET_LST_APY_LATEST + query,
+      SANCTUM_EXTRA_API_URI + EXTRA_API_ROUTES.GET_LST_APY_INDIV_EPOCHS + query,
       {
         method: "GET",
         headers: {
@@ -23,6 +24,6 @@ export async function getLstApyLatest(params: GetLstApyLatestParams) {
 
     return data;
   } catch (error) {
-    throw new Error(handleError(error, "getLstApyLatest"));
+    throw new Error(handleError(error, "getLstApyIndivEpochs"));
   }
 }

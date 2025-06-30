@@ -4,10 +4,10 @@ import {
   SANCTUM_EXTRA_API_URI,
 } from "../../shared";
 
-export async function getLstApyInception() {
+export async function getLsts() {
   try {
     const response = await fetch(
-      SANCTUM_EXTRA_API_URI + EXTRA_API_ROUTES.GET_LST_APY_INCEPTION,
+      SANCTUM_EXTRA_API_URI + EXTRA_API_ROUTES.GET_LSTS,
       {
         method: "GET",
         headers: {
@@ -16,10 +16,10 @@ export async function getLstApyInception() {
       }
     );
 
-    const data = await response.json();
+    const data = response.json();
 
     return data;
   } catch (error) {
-    throw new Error(handleError(error, "getLstApyInception"));
+    throw new Error(handleError(error, "getLsts"));
   }
 }
