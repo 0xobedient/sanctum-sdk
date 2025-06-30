@@ -4,11 +4,14 @@ import {
   BASE_API_ROUTES,
   handleError,
   SANCTUM_BASE_API_URI,
-  SwapLstParams,
+  GetSwapLstTxParams,
 } from "../../shared";
-import { buildTransaction } from "../helper";
+import { createTransaction } from "../helper";
 
-export async function swapLst(wallet: BaseWallet, params: SwapLstParams) {
+export async function getSwapLstUnsignedTx(
+  wallet: BaseWallet,
+  params: GetSwapLstTxParams
+) {
   try {
     const response = await fetch(SANCTUM_BASE_API_URI + BASE_API_ROUTES.SWAP, {
       method: "POST",
@@ -19,9 +22,12 @@ export async function swapLst(wallet: BaseWallet, params: SwapLstParams) {
     });
 
     const data = await response.json();
-    const signature = await buildTransaction(data.tx, wallet);
+    const transaction: VersionedTransaction = await createTransaction(
+      data.tx,
+      wallet
+    );
 
-    return signature;
+    return transaction;
   } catch (error) {
     throw new Error(handleError(error, "getSwapLstUnsignedTx"));
   }
