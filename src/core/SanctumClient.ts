@@ -1,20 +1,194 @@
+import { BaseWallet } from "./BaseWallet";
 import { ISanctumClient } from "./ISanctumClient";
-import { Connection } from "@solana/web3.js";
+import { Connection, Keypair } from "@solana/web3.js";
+import {
+  AddLstLiquidityParams,
+  GetAddLstLiquidityQuoteParams,
+  GetAddLstLiquidityTxParams,
+  GetLstMetadataParams,
+  GetLstPriceParams,
+  GetRemoveLstLiquidityQuoteParams,
+  GetRemoveLstLiquidityTxParams,
+  GetSwapLstQuoteParams,
+  GetSwapLstTxParams,
+  RemoveLstLiquidityParams,
+  SwapLstParams,
+  GetLstApyInceptionParams,
+  GetLstApyIndivEpochsParams,
+  GetLstApyLatestParams,
+  GetLstHoldersParams,
+  GetLstMetaParams,
+  GetLstQpyPastEpochsParams,
+  GetLstTvlParams,
+} from "../shared";
+import {
+  addLstLiquidity,
+  getAddLstLiquidityQuote,
+  getAddLstLiquidityUnsignedTx,
+  getAddLstLiquidityUnsignedTxString,
+  getLstMetadata,
+  getLstPrice,
+  getRemoveLiquidityUnsignedTx,
+  getRemoveLstLiquidityQuote,
+  getRemoveLstLiquidityUnsignedTxString,
+  getSwapLstQuoteV1,
+  getSwapLstQuoteV2,
+  getSwapLstUnsignedTx,
+  getSwapLstUnsignedTxString,
+  removeLstLiquidity,
+  swapLst,
+  getFeaturedLsts,
+  getLstApyInception,
+  getLstApyIndivEpochs,
+  getLstApyLatest,
+  getLstApyPastEpochs,
+  getLstCategory,
+  getLstCurrentInfinityAllocation,
+  getLstHolders,
+  getLstMeta,
+  getLsts,
+  getLstSolValue,
+  getLstTvl,
+} from "../hooks";
 
 export class SanctumClient implements ISanctumClient {
-  private readonly __connection!: Connection;
+  private readonly wallet?: BaseWallet;
 
-  constructor(endpoint?: string) {
-    if (endpoint) {
-      this.__connection = new Connection(endpoint);
+  constructor(keypair?: Keypair, connection?: Connection) {
+    if (keypair && connection) {
+      this.wallet = new BaseWallet(keypair, connection);
     }
   }
 
-  private __isConnected() {
-    if (!this.__connection) {
-      false;
+  async addLstLiquidity(params: AddLstLiquidityParams) {
+    if (!this.wallet) {
+      throw this.walletError();
     }
+    return addLstLiquidity(this.wallet, params);
+  }
 
-    return true;
+  async getAddLstLiquidityQuote(params: GetAddLstLiquidityQuoteParams) {
+    return getAddLstLiquidityQuote(params);
+  }
+
+  async getAddLstLiquidityUnsignedTx(params: GetAddLstLiquidityTxParams) {
+    if (!this.wallet) {
+      throw this.walletError();
+    }
+    return getAddLstLiquidityUnsignedTx(this.wallet, params);
+  }
+
+  async getAddLstLiquidityUnsignedTxString(params: GetAddLstLiquidityTxParams) {
+    return getAddLstLiquidityUnsignedTxString(params);
+  }
+
+  async getLstMetadata(params: GetLstMetadataParams) {
+    return getLstMetadata(params);
+  }
+
+  async getLstPrice(params: GetLstPriceParams) {
+    return getLstPrice(params);
+  }
+
+  async getRemoveLstLiquidityQuote(params: GetRemoveLstLiquidityQuoteParams) {
+    return getRemoveLstLiquidityQuote(params);
+  }
+
+  async getRemoveLiquidityUnsignedTx(params: GetRemoveLstLiquidityTxParams) {
+    if (!this.wallet) {
+      throw this.walletError();
+    }
+    return getRemoveLiquidityUnsignedTx(this.wallet, params);
+  }
+
+  async getRemoveLstLiquidityUnsignedTxString(
+    params: GetRemoveLstLiquidityTxParams
+  ) {
+    return getRemoveLstLiquidityUnsignedTxString(params);
+  }
+
+  async getSwapLstQuoteV1(params: GetSwapLstQuoteParams) {
+    return getSwapLstQuoteV1(params);
+  }
+
+  async getSwapLstQuoteV2(params: GetSwapLstQuoteParams) {
+    return getSwapLstQuoteV2(params);
+  }
+
+  async getSwapLstUnsignedTx(params: GetSwapLstTxParams) {
+    if (!this.wallet) {
+      throw this.walletError();
+    }
+    return getSwapLstUnsignedTx(this.wallet, params);
+  }
+
+  async getSwapLstUnsignedTxString(params: GetSwapLstTxParams) {
+    return getSwapLstUnsignedTxString(params);
+  }
+
+  async removeLstLiquidity(params: RemoveLstLiquidityParams) {
+    if (!this.wallet) {
+      throw this.walletError();
+    }
+    return removeLstLiquidity(this.wallet, params);
+  }
+
+  async swapLst(params: SwapLstParams) {
+    if (!this.wallet) {
+      throw this.walletError();
+    }
+    return swapLst(this.wallet, params);
+  }
+
+  async getFeaturedLsts() {
+    return getFeaturedLsts();
+  }
+
+  async getLstApyInception(parmas: GetLstApyInceptionParams) {
+    return getLstApyInception(parmas);
+  }
+
+  async getLstApyIndivEpochs(params: GetLstApyIndivEpochsParams) {
+    return getLstApyIndivEpochs(params);
+  }
+
+  async getLstApyLatest(params: GetLstApyLatestParams) {
+    return getLstApyLatest(params);
+  }
+
+  async getLstApyPastEpochs(params: GetLstQpyPastEpochsParams) {
+    return getLstApyPastEpochs(params);
+  }
+
+  async getLstCategory() {
+    return getLstCategory();
+  }
+
+  async getLstCurrentInfinityAllocation() {
+    return getLstCurrentInfinityAllocation();
+  }
+
+  async getLstHolders(params: GetLstHoldersParams) {
+    return getLstHolders(params);
+  }
+
+  async getLstMet(params: GetLstMetaParams) {
+    return getLstMeta(params);
+  }
+
+  async getLsts() {
+    return getLsts();
+  }
+
+  async getLstSolValue() {
+    return getLstSolValue();
+  }
+
+  async getLstTvl(params: GetLstTvlParams) {
+    return getLstTvl(params);
+  }
+
+  private walletError() {
+    return "Keypair is not configured. Please set the keypair before proceeding.";
   }
 }
